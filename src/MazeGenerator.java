@@ -1,5 +1,3 @@
-package com.cmpt213.assignment2;
-
 public class MazeGenerator {
     private int height;
     private int width;

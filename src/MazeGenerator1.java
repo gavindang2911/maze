@@ -1,5 +1,3 @@
-package com.cmpt213.assignment2;
-
 import java.util.Collections;
 import java.util.Arrays;
 

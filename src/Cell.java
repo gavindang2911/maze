@@ -1,5 +1,3 @@
-package com.cmpt213.assignment2;
-
 public class Cell {
     private int x;
     private int y;

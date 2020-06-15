@@ -1,10 +1,10 @@
 public class Cell {
-    private int x;
-    private int y;
-    private String actualSymbol;
+    private int x; // X coordinate
+    private int y; // Y coordinate
     private String dotSymbol;
+    private String actualSymbol;
     private CellManager neighboursOfCell = new CellManager();
-    private CellManager nextMoves = new CellManager();
+    //private CellManager nextMoves = new CellManager();
 
     public Cell(int x, int y, String actualSymbol, String dotSymbol) {
         this.x = x;
@@ -21,21 +21,21 @@ public class Cell {
         return y;
     }
 
-    public String getActualSymbol() {
-        return actualSymbol;
-    }
-
     public String getDotSymbol() {
         return dotSymbol;
+    }
+
+    public String getActualSymbol() {
+        return actualSymbol;
     }
 
     public CellManager getNeighboursOfCell() {
         return neighboursOfCell;
     }
 
-    public CellManager getNextMoves() {
-        return nextMoves;
-    }
+    //public CellManager getNextMoves() {
+    //    return nextMoves;
+    //}
 
     public void setX(int x) {
         this.x = x;
@@ -45,7 +45,7 @@ public class Cell {
         this.y = y;
     }
 
-    public void setaAtualSymbol(String actualSymbol) {
+    public void setActualSymbol(String actualSymbol) {
         this.actualSymbol = actualSymbol;
     }
 
@@ -57,9 +57,9 @@ public class Cell {
         this.neighboursOfCell = neighbours;
     }
 
-    public void setNextMoves(CellManager nextMoves) {
-        this.nextMoves = nextMoves;
-    }
+    //public void setNextMoves(CellManager nextMoves) {
+    //    this.nextMoves = nextMoves;
+    //}
 
     @Override
     public String toString() {

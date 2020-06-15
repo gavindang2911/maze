@@ -35,12 +35,13 @@ public class CellManager implements Iterable<Cell> {
         mazeList.remove(cell);
     }
 
-    public boolean isFound(Cell cell) {
-        return mazeList.contains(cell);
+    public Cell get(int index) {
+        return mazeList.get(index);
     }
 
     @Override
     public Iterator<Cell> iterator() {
         return mazeList.iterator();
     }
+
 }

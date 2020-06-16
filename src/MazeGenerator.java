@@ -16,9 +16,7 @@ public class MazeGenerator {
         generateOutSideMaze();
         setInnerMaze();
         generateMaze();
-        wallAtCorners();
-        addWallAndEmptyTo2x2();
-        removeInnerWalls();
+        fullFillMaze();
     }
 
     public int getHeight() {
@@ -53,7 +51,7 @@ public class MazeGenerator {
                     Cell cell = new Cell(i, j, "#", "#");
                     maze[i][j] = cell;
                 }
-                // Inside with "."
+                // Inside with "#" and hidden by "."
                 else {
                     Cell cell = new Cell(i, j, "#", ".");
                     maze[i][j] = cell;
@@ -62,7 +60,8 @@ public class MazeGenerator {
         }
     }
 
-    // Inside of maze
+    // Inside of maze, connect cells with its neighbors
+    // Each cell holding the array of its neighbor cells
     private void setInnerMaze() {
         for (int i = 1; i < height - 1; i++) {
             for(int j = 1; j < width - 1; j++) {
@@ -91,14 +90,8 @@ public class MazeGenerator {
         while (!stack.isEmpty()) {
             // Handle the cell at the top of the stack:
             Cell temp = stack.pop(); // Current cell
-            // CellManager nextMovesList = new CellManager(); // List of possible moves
             Random random = new Random();
 
-//            for (Cell neighborCell : temp.getNeighboursOfCell()) { // Access the neighbors of the current cell
-//                if (neighborCell.getDotSymbol().equals(".") && !visited.getMazeList().contains(neighborCell)) {
-//                    nextMovesList.add(neighborCell);
-//                }
-//            }
             CellManager availableMovesList = getAvailableNeighbors(visited, temp);
             if (availableMovesList.getSize() == 0) {
                 continue;
@@ -141,7 +134,7 @@ public class MazeGenerator {
 
     //  Requirements:
     //  Not have a wall in each of the 4 corners
-    public void wallAtCorners() {
+    public void removeWallAtCorners() {
         for (int i = 1; i < height - 1;  i++) {
             for (int j = 1; j < width - 1; j++) {
                 if ((i == 1 && j == 1) || ((i == height - 2) && (j == 1)) || ((i == 1) && (j == width - 2)) || ((i == height - 2) && (j == width-2))) {
@@ -151,19 +144,30 @@ public class MazeGenerator {
         }
     }
 
+    // Remove walls around the corners so hero and monsters can move
+    public void removeWallsAroundCorners() {
+        Random random = new Random();
+        int ran = random.nextInt(2);
+        if (ran == 0) {
+            maze[1][2].setActualSymbol(" ");
+            maze[1][width - 3].setActualSymbol(" ");
+            maze[height - 2][2].setActualSymbol(" ");
+            maze[height - 2][width - 3].setActualSymbol(" ");
+        }
+        else {
+            maze[2][1].setActualSymbol(" ");
+            maze[2][width - 2].setActualSymbol(" ");
+            maze[height - 3][1].setActualSymbol(" ");
+            maze[height - 3][width - 2].setActualSymbol(" ");
+        }
+    }
+
     // Remove some of the inner walls
     public void removeInnerWalls() {
         for (int i = 1; i < height - 1; i++) {
             for (int j = 1; j < width - 1; j++) {
-//                Random r = new Random();
-//                int ran = r.nextInt(2);
-//                if (ran == 0) {
-//                    maze[i][j].setAtualSymbol(" ");
-//                    if (check2x2Constraint()) {
-//                        maze[i][j].setAtualSymbol("#");
-//                    }
-//                }
-                if (maze[i][j].getActualSymbol().equals("#")) {
+                String wall = maze[i][j].getActualSymbol();
+                if (wall.equals("#")) {
                     maze[i][j].setActualSymbol(" ");
                     if (check2x2Constraint()) {
                         maze[i][j].setActualSymbol("#");
@@ -239,6 +243,15 @@ public class MazeGenerator {
                     }
                 }
             }
+        }
+    }
+
+    public void fullFillMaze() {
+        while(check2x2Constraint()) {
+            addWallAndEmptyTo2x2();
+            removeWallAtCorners();
+            removeWallsAroundCorners();
+            removeInnerWalls();
         }
     }
 

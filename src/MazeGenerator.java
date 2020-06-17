@@ -8,6 +8,7 @@ public class MazeGenerator {
     private int height;
     private int width;
     private Cell[][] maze;
+    private String[][] mazeString;
 
     public MazeGenerator(int height, int width) {
         this.height = height;
@@ -123,14 +124,6 @@ public class MazeGenerator {
         return availableMoves;
     }
 
-    public void displayMaze(MazeGenerator mazeBoard) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(mazeBoard.getMaze()[i][j].getActualSymbol());
-            }
-            System.out.println();
-        }
-    }
 
     //  Requirements:
     //  Not have a wall in each of the 4 corners
@@ -246,12 +239,37 @@ public class MazeGenerator {
         }
     }
 
+    public void displayMaze() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print(maze[i][j].getActualSymbol());
+            }
+            System.out.println();
+        }
+    }
+
+    public void displayMazeString() {
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                System.out.print(mazeString[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
     public void fullFillMaze() {
         while(check2x2Constraint()) {
             addWallAndEmptyTo2x2();
             removeWallAtCorners();
             removeWallsAroundCorners();
             removeInnerWalls();
+        }
+        // Convert all symbol in maze to String and save in mazeString
+        mazeString = new String[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mazeString[i][j] = maze[i][j].getActualSymbol();
+            }
         }
     }
 

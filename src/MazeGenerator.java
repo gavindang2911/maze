@@ -14,10 +14,7 @@ public class MazeGenerator {
         this.height = height;
         this.width = width;
         maze = new Cell[height][width];
-        generateOutSideMaze();
-        setInnerMaze();
-        generateMaze();
-        fullFillMaze();
+        mazeString = new String[height][width];
     }
 
     public int getHeight() {
@@ -32,6 +29,10 @@ public class MazeGenerator {
         return maze;
     }
 
+    public String[][] getMazeString() {
+        return mazeString;
+    }
+
     public void setHeight(int height) {
         this.height = height;
     }
@@ -42,6 +43,13 @@ public class MazeGenerator {
 
     public void setMaze(Cell[][] maze) {
         this.maze = maze;
+    }
+
+    public void createMaze() {
+        generateOutSideMaze();
+        setInnerMaze();
+        generateMaze();
+        fullFillMaze();
     }
 
     private void generateOutSideMaze() {
@@ -265,7 +273,6 @@ public class MazeGenerator {
             removeInnerWalls();
         }
         // Convert all symbol in maze to String and save in mazeString
-        mazeString = new String[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 mazeString[i][j] = maze[i][j].getActualSymbol();

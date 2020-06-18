@@ -26,8 +26,7 @@ public class Grid {
         int count = 0;
         while (true) {
             powerList.getPowerList().get(count).getCurrentPosition().setDotSymbol(powerList.getPowerList().get(count).getPowerString());
-            displayHiddenMaze(current, mazeBoard);
-            System.out.println("ca.cmpt213.as3.Cheese collected: " + count + " of 3");
+            System.out.println("total of power " + count + " of 3");
             input = new MazeInput(mazeBoard, current);
             input.key();
         }
@@ -72,28 +71,7 @@ public class Grid {
     }
 
 
-    public static void displayMaze(MazeGenerator maze) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(maze.getMaze()[i][j].getActualSymbol());
-            }
-            System.out.println();
-        }
-    }
 
-    public static void displayHiddenMaze(Cell current, MazeGenerator maze) {
-        for (int i = 0; i < maze.getHeight(); i++) {
-            for (int j = 0; j < maze.getWidth(); j++) {
-                if ((i == current.getX() + 1 && j == current.getY() - 1) || (i == current.getX() + 1 && j == current.getY()) || (i == current.getX() + 1 && j == current.getY() + 1) ||
-                        (i == current.getX() && j == current.getY() - 1) || (i == current.getX() && j == current.getY()) || (i == current.getX() && j == current.getY() + 1) ||
-                        (i == current.getX() - 1 && j == current.getY() - 1) || (i == current.getX() - 1 && j == current.getY()) || (i == current.getX() - 1 && j == current.getY() + 1)) {
-                    maze.getMaze()[i][j].setDotSymbol(maze.getMaze()[i][j].getActualSymbol());
-                }
-                System.out.print(maze.getMaze()[i][j].getDotSymbol());
-            }
-            System.out.println();
-        }
-    }
 }
 
 

@@ -1,7 +1,10 @@
+package Logic;
+
+import Logic.Cell;
+import Logic.CellManager;
+
 import java.util.Random;
 import java.util.Stack;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MazeGenerator {
@@ -15,6 +18,7 @@ public class MazeGenerator {
         this.width = width;
         maze = new Cell[height][width];
         mazeString = new String[height][width];
+        createMaze();
     }
 
     public int getHeight() {
@@ -101,7 +105,7 @@ public class MazeGenerator {
             Cell temp = stack.pop(); // Current cell
             Random random = new Random();
 
-            CellManager availableMovesList = getAvailableNeighbors(visited, temp);
+            CellManager availableMovesList = getAvailableNeighborsHelper(visited, temp);
             if (availableMovesList.getSize() == 0) {
                 continue;
             }
@@ -121,7 +125,7 @@ public class MazeGenerator {
     }
 
     // Get available neighbors from bottom, left, right, top and unvisited
-    public CellManager getAvailableNeighbors(CellManager visit, Cell cell) {
+    public CellManager getAvailableNeighborsHelper(CellManager visit, Cell cell) {
         CellManager availableMoves = new CellManager();
         for (Cell neighbor:cell.getNeighboursOfCell()) {
             if (neighbor.getDotSymbol().equals(".") && !visit.getMazeList().contains(neighbor)) {
@@ -132,6 +136,16 @@ public class MazeGenerator {
         return availableMoves;
     }
 
+
+    public CellManager getAvailableMoves(Cell cell) {
+        CellManager availableMoves = new CellManager();
+        for (Cell neighbor:cell.getNeighboursOfCell()) {
+            if (!neighbor.getActualSymbol().equals("#")) {
+                availableMoves.add(neighbor);
+            }
+        }
+        return availableMoves;
+    }
 
     //  Requirements:
     //  Not have a wall in each of the 4 corners
@@ -247,23 +261,32 @@ public class MazeGenerator {
         }
     }
 
-    public void displayMaze() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(maze[i][j].getActualSymbol());
-            }
-            System.out.println();
-        }
-    }
+//    public void displayMaze() {
+//        for (int i = 0; i < height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                System.out.print(maze[i][j].getActualSymbol());
+//            }
+//            System.out.println();
+//        }
+//    }
 
-    public void displayMazeString() {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                System.out.print(mazeString[i][j]);
-            }
-            System.out.println();
-        }
-    }
+//    public void displayHiddenMaze() {
+//        for (int i = 0; i < height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                System.out.print(maze[i][j].getDotSymbol());
+//            }
+//            System.out.println();
+//        }
+//    }
+
+//    public void displayMazeString() {
+//        for (int i = 0; i < height; ++i) {
+//            for (int j = 0; j < width; ++j) {
+//                System.out.print(mazeString[i][j]);
+//            }
+//            System.out.println();
+//        }
+//    }
 
     public void fullFillMaze() {
         while(check2x2Constraint()) {

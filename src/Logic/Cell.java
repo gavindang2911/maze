@@ -1,10 +1,12 @@
+package Logic;
+
 public class Cell {
     private int x; // X coordinate
     private int y; // Y coordinate
     private String dotSymbol;
     private String actualSymbol;
     private CellManager neighboursOfCell = new CellManager();
-    //private CellManager nextMoves = new CellManager();
+    //private Logic.CellManager nextMoves = new Logic.CellManager();
 
     public Cell(int x, int y, String actualSymbol, String dotSymbol) {
         this.x = x;
@@ -33,7 +35,7 @@ public class Cell {
         return neighboursOfCell;
     }
 
-    //public CellManager getNextMoves() {
+    //public Logic.CellManager getNextMoves() {
     //    return nextMoves;
     //}
 
@@ -57,13 +59,23 @@ public class Cell {
         this.neighboursOfCell = neighbours;
     }
 
-    //public void setNextMoves(CellManager nextMoves) {
+    //public void setNextMoves(Logic.CellManager nextMoves) {
     //    this.nextMoves = nextMoves;
     //}
 
+    public CellManager getAvailableMoves(Cell cell) {
+        CellManager availableMoves = new CellManager();
+        for (Cell neighbor : cell.getNeighboursOfCell()) {
+            if (!neighbor.getActualSymbol().equals("#")) {
+                availableMoves.add(neighbor);
+            }
+        }
+        return availableMoves;
+    }
+
     @Override
     public String toString() {
-        return "Cell{" +
+        return "Logic.Cell{" +
                 "actualSymbol='" + actualSymbol + '\'' +
                 '}';
     }

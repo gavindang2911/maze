@@ -1,10 +1,14 @@
+package Logic;
+
+import Logic.Cell;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
 public class CellManager implements Iterable<Cell> {
-    List<Cell> mazeList = new ArrayList<>();
-    int size;
+    private List<Cell> mazeList = new ArrayList<>();
+    private int size;
 
     public CellManager() {
         this.size = 0;
@@ -28,7 +32,7 @@ public class CellManager implements Iterable<Cell> {
 
     public void add(Cell cell) {
         mazeList.add(cell);
-        size++;
+        this.size++;
     }
 
     public void remove(Cell cell) {

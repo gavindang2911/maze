@@ -1,4 +1,4 @@
-package com.cmpt213.assignment2;
+package com.cmpt213.UI;
 
 public class Symbol {
     private final String hero;

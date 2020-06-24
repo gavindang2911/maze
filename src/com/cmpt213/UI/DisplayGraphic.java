@@ -30,9 +30,7 @@ public class DisplayGraphic {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 this.fullMaze[i][j] = actualMaze[i][j];
-                System.out.print(fullMaze[i][j]);
             }
-            System.out.println();
         }
     }
 
@@ -71,13 +69,11 @@ public class DisplayGraphic {
             } else {
                 gameMaze[pastX][pastY] = gameSymbol.getSpaceSymbol();
             }
-            //System.out.println(pastX + "," + pastY);
         }
         for (Cell position : positions) {
             int currentX = position.getX();
             int currentY = position.getY();
             gameMaze[currentX][currentY] = gameSymbol.getMonsterSymbol();
-            //System.out.println(currentX + "," + currentY);
         }
 
     }
@@ -122,6 +118,9 @@ public class DisplayGraphic {
         drawHero(game.getHero().getHeroPosition());
         drawMonster(game.getMonster().getMonsterPosition(), game.getMonster().getPastPosition(),
                 game.getPower().getPowerPosition(), game.getHero().getHeroPosition());
+        if (!game.getHero().isHeroWin() && game.getMonster().isMonsterWin()) {
+            gameMaze[game.getHero().getHeroPosition().getX()][game.getHero().getHeroPosition().getY()] = gameSymbol.getHeroDieSymbol();
+        }
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 System.out.print(gameMaze[i][j]);
@@ -140,7 +139,23 @@ public class DisplayGraphic {
             }
             System.out.println();
         }
-        fullMaze[1][1] = gameSymbol.getSpaceSymbol();
+        fullMaze[game.getHero().getHeroPosition().getX()][game.getHero().getHeroPosition().getY()] = gameSymbol.getSpaceSymbol();
+    }
+
+    public void menu() {
+        System.out.println("DIRECTIONS:\n" +
+                "Kill 3 Monsters!\n" +
+                "LEGEND:\n" +
+                "#: Wall\n" +
+                "@: You (a hero)\n" +
+                "!: Monster\n" +
+                "$: Power\n" +
+                ".: Unexplored space\n" +
+                "MOVES:\n" +
+                "Use W (up), A (left), S (down) and D (right) to move.\n" +
+                "(You must press enter after each move).");
+        System.out.println("1.Press c to use cheat code.\n2.Press m to display full map.\n" +
+                "3.Press any key and enter to play.\n");
     }
 
     public static void main(String[] args) {
@@ -148,13 +163,6 @@ public class DisplayGraphic {
         final int width = 20;
         int monsterNum = 3;
 
-        Scanner gamerInput = new Scanner(System.in);
-        System.out.println("1.Press c to use cheat code.\n2.Press m to display full map.\n" +
-                "3.Press any key to play.\n");
-        String input = gamerInput.nextLine();
-        if (input.equals("c")) {
-            monsterNum = 1;
-        }
         Monster monster = new Monster(monsterNum);
         Hero hero = new Hero(1, 1);
         Power power = new Power(3);
@@ -164,18 +172,46 @@ public class DisplayGraphic {
         DisplayGraphic display = new DisplayGraphic(height, width, map);
         display.initDisplay();
         game.initGameState();
+        display.menu();
+        System.out.println("Maze:");
         display.drawGame(game);
-        if (input.equals("m")) {
-            display.displayFullMap(game);
-        }
-        System.out.println("Press [wsad] to move hero:");
+
         while(!monster.isMonsterWin() && !hero.isHeroWin()) {
-            String moveInput = gamerInput.nextLine();
-            game.heroAction(moveInput);
-            game.monsterAction();
-            game.heroVsMonster();
-            display.drawGame(game);
+            if (game.getCheatCode()) {
+                System.out.println("Total number of monsters to be killed: 1");
+            } else {
+                System.out.println("Total number of monsters to be killed: " + game.getMonster().getMonsterNum());
+            }
+            System.out.println("Number of powers currently in possession: " + game.getHero().getNumberOfPowerPossess());
+            System.out.println("Number of monsters alive: " + game.getMonster().getMonsterNum());
             System.out.println("Press [wsad] to move hero:");
+            Scanner gamerInput = new Scanner(System.in);
+            String moveInput = gamerInput.nextLine();
+            if (moveInput.equals("m")) {
+                display.displayFullMap(game);
+            } else if (moveInput.equals("?")) {
+                display.menu();
+            } else {
+                if (moveInput.equals("c")) {
+                    game.setCheatCode();
+                    System.out.println("Press [wsad] to move hero:");
+                    moveInput = gamerInput.nextLine();
+                }
+                while (!moveInput.equals("w") && !moveInput.equals("s") && !moveInput.equals("a") && !moveInput.equals("d")) {
+                    System.out.println("Please enter valid move [wsad]: ");
+                    moveInput = gamerInput.nextLine();
+                }
+                game.heroAction(moveInput);
+                game.monsterAction();
+                game.heroVsMonster();
+            }
+            System.out.println("Maze:");
+            display.drawGame(game);
+        }
+        if (monster.isMonsterWin()) {
+            System.out.println("Game over!");
+        } else {
+            System.out.println("You won!");
         }
     }
 }

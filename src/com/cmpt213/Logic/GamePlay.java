@@ -9,6 +9,7 @@ public class GamePlay {
     private final Hero hero;
     private final Power power;
     private final Map map;
+    private boolean cheatCode = false;
 
     public GamePlay(Hero hero, Monster monster, Power power, Map map) {
         this.hero = hero;
@@ -30,50 +31,35 @@ public class GamePlay {
         return power;
     }
 
-    /*public Map getMap() {
-        return map;
-    }*/
+    public boolean getCheatCode() {
+        return cheatCode;
+    }
+
+    public void setCheatCode() {
+        cheatCode = true;
+    }
 
     public void initGameState() {
-        // init monster state
-        //Random randomInt = new Random();
+
         ArrayList<Cell> initMonsterPos = new ArrayList<>();
         ArrayList<Cell> initPastMonsterPos = new ArrayList<>();
 
-        for (int i = 11; i < 11 + monster.getMonsterNum(); ++i) {
-            for (int j = 1; j < map.getWidth() - 1; ++j) {
-                Cell monsterPos = new Cell(i, j);
-                Cell PastMonsterPos = new Cell(i, j);
-                if (!map.isCurrentWall(monsterPos)) {
-                    initMonsterPos.add(monsterPos);
-                    initPastMonsterPos.add(PastMonsterPos);
-                    break;
-                }
-            }
-        }
-        //initMonsterPos.add(new Position(13, 18));
-        /*while (initMonsterPos.size() != monster.getMonsterNum()) {
-            int randomX = randomInt.nextInt(6) + 8;
-            for (int i = 1; i < map.getYHeight() - 2; ++i) {
-                Position position = new Position(randomX, i);
-                if (map.isCurrentWall(position) == false) {
-                    initMonsterPos.add(position);
-                }
-            }
-        }*/
+        Cell monster1 = new Cell(1, 18);
+        Cell monster2 = new Cell(13, 1);
+        Cell monster3 = new Cell(13, 18);
+        Cell pastMonster1 = new Cell(1, 18);
+        Cell pastMonster2 = new Cell(13, 1);
+        Cell pastMonster3 = new Cell(13, 18);
+        initMonsterPos.add(monster1);
+        initMonsterPos.add(monster2);
+        initMonsterPos.add(monster3);
+        initPastMonsterPos.add(pastMonster1);
+        initPastMonsterPos.add(pastMonster2);
+        initPastMonsterPos.add(pastMonster3);
+
         monster.initMonster(initMonsterPos);
         monster.initPastPosition(initPastMonsterPos);
-        //init power state
-        //ArrayList<Cell> initPowerPos = new ArrayList<>();
-        /*while (initPowerPos.size() != power.getPowerNum()) {
-            int randomX = randomInt.nextInt(12) + 2;
-            for (int i = 1; i < map.getYHeight() - 2; ++i) {
-                Position position = new Position(randomX, i);
-                if (map.isCurrentWall(position) == false) {
-                    initMonsterPos.add(position);
-                }
-            }
-        }*/
+
         Random randomPower = new Random();
         int randomX = randomPower.nextInt(9) + 2;
         for (int i = 0; i < map.getWidth(); ++i ) {
@@ -84,57 +70,54 @@ public class GamePlay {
                 break;
             }
         }
-
     }
 
     public void monsterAction() {
-            for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
+        for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
+            Cell current = monster.getMonsterPosition().get(i);
+            Cell past = monster.getPastPosition().get(i);
+            int currentX = current.getX();
+            int currentY = current.getY();
+            Cell up = new Cell(currentX - 1, currentY);
+            Cell down = new Cell(currentX + 1, currentY);
+            Cell right = new Cell(currentX, currentY + 1);
+            Cell left = new Cell(currentX, currentY - 1);
 
-                Cell current = monster.getMonsterPosition().get(i);
-                Cell past = monster.getPastPosition().get(i);
-                int currentX = current.getX();
-                int currentY = current.getY();
-                Cell up = new Cell(currentX - 1, currentY);
-                Cell down = new Cell(currentX + 1, currentY);
-                Cell right = new Cell(currentX, currentY + 1);
-                Cell left = new Cell(currentX, currentY - 1);
-
-                if (!map.isCurrentWall(up) && (past.getX() != up.getX())) {
-                    current.setX(currentX - 1);
-                    current.setY(currentY);
-                    past.setX(currentX);
-                    past.setY(currentY);
-                    continue;
-                }
-                if (!map.isCurrentWall(down) && (past.getX() != down.getX())) {
-                    current.setX(currentX + 1);
-                    current.setY(currentY);
-                    past.setX(currentX);
-                    past.setY(currentY);
-                    continue;
-                }
-                if (!map.isCurrentWall(right) && ( past.getY() != right.getY())) {
-                    current.setX(currentX);
-                    current.setY(currentY + 1);
-                    past.setX(currentX);
-                    past.setY(currentY);
-                    continue;
-                }
-                if (!map.isCurrentWall(left) && ( past.getY() != left.getY())) {
-                    current.setX(currentX);
-                    current.setY(currentY - 1);
-                    past.setX(currentX);
-                    past.setY(currentY);
-                    continue;
-                }
-
-                current.setX(past.getX());
-                current.setY(past.getY());
+            if (!map.isCurrentWall(up) && (past.getX() != up.getX())) {
+                current.setX(currentX - 1);
+                current.setY(currentY);
                 past.setX(currentX);
                 past.setY(currentY);
+                continue;
             }
-            //heroVsMonster();
+            if (!map.isCurrentWall(down) && (past.getX() != down.getX())) {
+                current.setX(currentX + 1);
+                current.setY(currentY);
+                past.setX(currentX);
+                past.setY(currentY);
+                continue;
+            }
+            if (!map.isCurrentWall(right) && ( past.getY() != right.getY())) {
+                current.setX(currentX);
+                current.setY(currentY + 1);
+                past.setX(currentX);
+                past.setY(currentY);
+                continue;
+            }
+            if (!map.isCurrentWall(left) && ( past.getY() != left.getY())) {
+                current.setX(currentX);
+                current.setY(currentY - 1);
+                past.setX(currentX);
+                past.setY(currentY);
+                continue;
+            }
+            current.setX(past.getX());
+            current.setY(past.getY());
+            past.setX(currentX);
+            past.setY(currentY);
+        }
     }
+
     public void heroAction(String keyboardInput) {
         int currentX = hero.getHeroPosition().getX();
         int currentY = hero.getHeroPosition().getY();
@@ -205,7 +188,9 @@ public class GamePlay {
                         hero.decreasePowerNum();
                         monster.getMonsterPosition().remove(i);
                         monster.setMonsterNum(monster.getMonsterNum() - 1);
-                        if (monster.getMonsterNum() == 0) {
+                        if (monster.getMonsterNum() == 0 && !cheatCode) {
+                            hero.setHeroWin();
+                        } else if (cheatCode && monster.getMonsterNum() == 2) {
                             hero.setHeroWin();
                         }
                     } else {
@@ -215,10 +200,5 @@ public class GamePlay {
                 }
             }
         }
-    }
-
-
-    public static void main(String[] args) {
-
     }
 }

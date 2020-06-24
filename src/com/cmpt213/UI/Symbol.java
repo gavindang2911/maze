@@ -7,6 +7,7 @@ public class Symbol {
     private final String wall;
     private final String space;
     private final String unknown;
+    private final String heroDie;
 
     public Symbol() {
         this.hero = "@";
@@ -15,6 +16,7 @@ public class Symbol {
         this.wall = "#";
         this.space = " ";
         this.unknown = ".";
+        this.heroDie = "X";
     }
 
     public String getHeroSymbol() {
@@ -39,5 +41,9 @@ public class Symbol {
 
     public String getUnknownSymbol() {
         return unknown;
+    }
+
+    public String getHeroDieSymbol() {
+        return heroDie;
     }
 }

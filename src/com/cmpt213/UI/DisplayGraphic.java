@@ -168,7 +168,8 @@ public class DisplayGraphic {
         Power power = new Power(3);
         Map map = new Map(height, width);
         GamePlay game = new GamePlay(hero, monster, power, map);
-        map.initGrid();
+//        map.initGrid();
+        map.createMaze();
         DisplayGraphic display = new DisplayGraphic(height, width, map);
         display.initDisplay();
         game.initGameState();
@@ -201,8 +202,7 @@ public class DisplayGraphic {
                     System.out.println("Please enter valid move [wsad]: ");
                     moveInput = gamerInput.nextLine();
                 }
-                game.heroAction(moveInput);
-                while(game.isInvalidMove()) {
+                while(!game.heroAction(moveInput)) {
                     System.out.println("Monster cannot go through wall. Enter again [wsad]: ");
                     moveInput = gamerInput.nextLine();
                     game.heroAction(moveInput);

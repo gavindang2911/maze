@@ -1,3 +1,4 @@
+
 package com.cmpt213.Logic;
 
 public class Hero {
@@ -40,3 +41,4 @@ public class Hero {
     }
 
 }
+

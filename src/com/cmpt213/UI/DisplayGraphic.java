@@ -166,7 +166,8 @@ public class DisplayGraphic {
         Power power = new Power(3);
         Map map = new Map(height, width);
         GamePlay game = new GamePlay(hero, monster, power, map);
-        map.initGrid();
+//        map.initGrid();
+        map.createMaze();
         DisplayGraphic display = new DisplayGraphic(height, width, map);
         display.initDisplay();
         game.initGameState();
@@ -220,3 +221,4 @@ public class DisplayGraphic {
         }
     }
 }
+

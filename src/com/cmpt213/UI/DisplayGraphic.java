@@ -200,7 +200,8 @@ public class DisplayGraphic {
                     System.out.println("Please enter valid move [wsad]: ");
                     moveInput = gamerInput.nextLine();
                 }
-                while(!game.heroAction(moveInput)) {
+                game.heroAction(moveInput);
+                while(game.isInvalidMove()) {
                     System.out.println("Monster cannot go through wall. Enter again [wsad]: ");
                     moveInput = gamerInput.nextLine();
                     game.heroAction(moveInput);

@@ -261,8 +261,8 @@ public class Map {
             removeWallsAroundCorners();
             removeInnerWalls();
             // Convert all symbol in maze to String and save in mazeString
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
+            for (int i = 0; i < height; ++i) {
+                for (int j = 0; j < width; ++j) {
                     this.fullMaze[i][j] = maze[i][j].getActualSymbol();
                 }
             }

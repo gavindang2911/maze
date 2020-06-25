@@ -12,6 +12,7 @@ public class GamePlay {
     private final Power power;
     private final Map map;
     private boolean cheatCode = false;
+    private boolean invalidMove = false;
 
     public GamePlay(Hero hero, Monster monster, Power power, Map map) {
         this.hero = hero;
@@ -36,6 +37,13 @@ public class GamePlay {
         return cheatCode;
     }
 
+    public boolean isInvalidMove() {
+        return invalidMove;
+    }
+
+    public void setInvalidMove(boolean invalidMove) {
+        this.invalidMove = invalidMove;
+    }
 
     public void setCheatCode() {
         cheatCode = true;
@@ -130,7 +138,7 @@ public class GamePlay {
         return false;
     }
 
-    public boolean heroAction(String keyboardInput) {
+    public void heroAction(String keyboardInput) {
         int currentX = hero.getHeroPosition().getX();
         int currentY = hero.getHeroPosition().getY();
         switch (keyboardInput) {
@@ -138,8 +146,6 @@ public class GamePlay {
                 Cell up = new Cell(currentX - 1, currentY);
                 if (!map.isCurrentWall(up)) {
                     hero.setPosition(up);
-                } else {
-                    return false;
                 }
                 if (!checkHeroInMonster()) {
                     heroGrabPower();
@@ -149,8 +155,6 @@ public class GamePlay {
                 Cell down = new Cell(currentX + 1, currentY);
                 if (!map.isCurrentWall(down)) {
                     hero.setPosition(down);
-                } else {
-                    return false;
                 }
                 if (!checkHeroInMonster()) {
                     heroGrabPower();
@@ -160,8 +164,6 @@ public class GamePlay {
                 Cell right = new Cell(currentX, currentY + 1);
                 if (!map.isCurrentWall(right)) {
                     hero.setPosition(right);
-                } else {
-                    return false;
                 }
                 if (!checkHeroInMonster()) {
                     heroGrabPower();
@@ -171,18 +173,21 @@ public class GamePlay {
                 Cell left = new Cell(currentX, currentY - 1);
                 if (!map.isCurrentWall(left)) {
                     hero.setPosition(left);
-                } else {
-                    return false;
                 }
                 if (!checkHeroInMonster()) {
                     heroGrabPower();
                 }
             }
         }
+        if (currentX == hero.getHeroPosition().getX() && currentY == hero.getHeroPosition().getY()) {
+            setInvalidMove(true);
+            return;
+        } else {
+            setInvalidMove(false);
+        }
         if (checkHeroInMonster()) {
             heroVsMonster();
         }
-        return true;
     }
 
     public void generatePower() {

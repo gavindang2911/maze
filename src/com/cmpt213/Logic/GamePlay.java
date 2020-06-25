@@ -127,6 +127,16 @@ public class GamePlay {
         }
     }
 
+    public boolean checkHeroInMonster() {
+        for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
+            if (hero.getHeroPosition().getX() == monster.getMonsterPosition().get(i).getX() &&
+                    hero.getHeroPosition().getY() == monster.getMonsterPosition().get(i).getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void heroAction(String keyboardInput) {
         int currentX = hero.getHeroPosition().getX();
         int currentY = hero.getHeroPosition().getY();
@@ -136,28 +146,36 @@ public class GamePlay {
                 if (!map.isCurrentWall(up)) {
                     hero.setPosition(up);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
             case "s" -> {
                 Cell down = new Cell(currentX + 1, currentY);
                 if (!map.isCurrentWall(down)) {
                     hero.setPosition(down);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
             case "d" -> {
                 Cell right = new Cell(currentX, currentY + 1);
                 if (!map.isCurrentWall(right)) {
                     hero.setPosition(right);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
             case "a" -> {
                 Cell left = new Cell(currentX, currentY - 1);
                 if (!map.isCurrentWall(left)) {
                     hero.setPosition(left);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
         }
         if (currentX == hero.getHeroPosition().getX() && currentY == hero.getHeroPosition().getY()) {
@@ -166,12 +184,9 @@ public class GamePlay {
         } else {
             setInvalidMove(false);
         }
-        for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
-            if (hero.getHeroPosition().getX() == monster.getMonsterPosition().get(i).getX() &&
-                hero.getHeroPosition().getY() == monster.getMonsterPosition().get(i).getY()) {
-                heroVsMonster();
-                break;
-            }
+
+        if (checkHeroInMonster()) {
+            heroVsMonster();
         }
     }
 

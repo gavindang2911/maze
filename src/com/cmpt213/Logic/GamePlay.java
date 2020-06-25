@@ -1,8 +1,9 @@
+
 package com.cmpt213.Logic;
 
-import com.cmpt213.UI.DisplayGraphic;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class GamePlay {
     private final Monster monster;
@@ -10,6 +11,7 @@ public class GamePlay {
     private final Power power;
     private final Map map;
     private boolean cheatCode = false;
+    private boolean invalidMove = false;
 
     public GamePlay(Hero hero, Monster monster, Power power, Map map) {
         this.hero = hero;
@@ -33,6 +35,14 @@ public class GamePlay {
 
     public boolean getCheatCode() {
         return cheatCode;
+    }
+
+    public boolean isInvalidMove() {
+        return invalidMove;
+    }
+
+    public void setInvalidMove(boolean invalidMove) {
+        this.invalidMove = invalidMove;
     }
 
     public void setCheatCode() {
@@ -118,6 +128,16 @@ public class GamePlay {
         }
     }
 
+    public boolean checkHeroInMonster() {
+        for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
+            if (hero.getHeroPosition().getX() == monster.getMonsterPosition().get(i).getX() &&
+                    hero.getHeroPosition().getY() == monster.getMonsterPosition().get(i).getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void heroAction(String keyboardInput) {
         int currentX = hero.getHeroPosition().getX();
         int currentY = hero.getHeroPosition().getY();
@@ -127,29 +147,47 @@ public class GamePlay {
                 if (!map.isCurrentWall(up)) {
                     hero.setPosition(up);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
             case "s" -> {
                 Cell down = new Cell(currentX + 1, currentY);
                 if (!map.isCurrentWall(down)) {
                     hero.setPosition(down);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
             case "d" -> {
                 Cell right = new Cell(currentX, currentY + 1);
                 if (!map.isCurrentWall(right)) {
                     hero.setPosition(right);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
             case "a" -> {
                 Cell left = new Cell(currentX, currentY - 1);
                 if (!map.isCurrentWall(left)) {
                     hero.setPosition(left);
                 }
-                heroGrabPower();
+                if (!checkHeroInMonster()) {
+                    heroGrabPower();
+                }
             }
+        }
+        if (currentX == hero.getHeroPosition().getX() && currentY == hero.getHeroPosition().getY()) {
+            setInvalidMove(true);
+            return;
+        } else {
+            setInvalidMove(false);
+        }
+
+        if (checkHeroInMonster()) {
+            heroVsMonster();
         }
     }
 
@@ -202,3 +240,4 @@ public class GamePlay {
         }
     }
 }
+

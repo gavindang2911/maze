@@ -202,8 +202,15 @@ public class DisplayGraphic {
                     moveInput = gamerInput.nextLine();
                 }
                 game.heroAction(moveInput);
-                game.monsterAction();
-                game.heroVsMonster();
+                while(game.isInvalidMove()) {
+                    System.out.println("Monster cannot go through wall. Enter again [wsad]: ");
+                    moveInput = gamerInput.nextLine();
+                    game.heroAction(moveInput);
+                }
+                if (game.getMonster().getMonsterNum() > 0 && !game.getHero().isHeroWin() && !game.getMonster().isMonsterWin()) {
+                    game.monsterAction();
+                    game.heroVsMonster();
+                }
             }
             System.out.println("Maze:");
             display.drawGame(game);
@@ -215,3 +222,4 @@ public class DisplayGraphic {
         }
     }
 }
+

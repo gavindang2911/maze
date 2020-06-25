@@ -2,6 +2,7 @@ package com.cmpt213.Logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class GamePlay {
@@ -18,7 +19,6 @@ public class GamePlay {
         this.power = power;
         this.map = map;
     }
-
 
     public Hero getHero() {
         return hero;
@@ -184,7 +184,6 @@ public class GamePlay {
         } else {
             setInvalidMove(false);
         }
-
         if (checkHeroInMonster()) {
             heroVsMonster();
         }
@@ -217,25 +216,28 @@ public class GamePlay {
         if (heroMeetMonster >= 1) {
             int[] countMonster;
             countMonster = new int[monster.getMonsterNum()];
+            List<Cell> monsterDie = new ArrayList<>();
             for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
                 countMonster[i] = Collections.frequency(monster.getMonsterPosition(), monster.getMonsterPosition().get(i));
                 Cell current = monster.getMonsterPosition().get(i);
                 if (current.getX() == hero.getHeroPosition().getX() && current.getY() == hero.getHeroPosition().getY()) {
                     if (hero.getNumberOfPowerPossess() >= countMonster[i]) {
-                        hero.decreasePowerNum();
-                        monster.getMonsterPosition().remove(i);
-                        monster.setMonsterNum(monster.getMonsterNum() - 1);
-                        if (monster.getMonsterNum() == 0 && !cheatCode) {
-                            hero.setHeroWin();
-                        } else if (cheatCode && monster.getMonsterNum() == 2) {
-                            hero.setHeroWin();
-                        }
+                        monsterDie.add(monster.getMonsterPosition().get(i));
                     } else {
                         monster.setMonsterWin();
                         break;
                     }
+
                 }
             }
+            hero.decreasePowerNum(monsterDie.size());
+            monster.setMonsterNum(monster.getMonsterNum() - monsterDie.size());
+            if (monster.getMonsterNum() == 0 && !cheatCode) {
+                hero.setHeroWin();
+            } else if (cheatCode && monster.getMonsterNum() == 2) {
+                hero.setHeroWin();
+            }
+            monster.getMonsterPosition().removeAll(monsterDie);
         }
     }
 }

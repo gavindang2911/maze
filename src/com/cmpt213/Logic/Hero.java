@@ -35,8 +35,8 @@ public class Hero {
         numberOfPowerPossess += 1;
     }
 
-    public void decreasePowerNum() {
-        numberOfPowerPossess -= 1;
+    public void decreasePowerNum(int num) {
+        numberOfPowerPossess -= num;
     }
 
 }

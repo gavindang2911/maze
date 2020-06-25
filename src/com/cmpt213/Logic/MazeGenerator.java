@@ -243,8 +243,6 @@ public class MazeGenerator {
     public String[][] getFullMaze() {
         return this.mazeString;
     }
-
-
 }
 
 

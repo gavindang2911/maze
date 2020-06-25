@@ -5,7 +5,6 @@ import com.cmpt213.Logic.*;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class DisplayGraphic {
     private final int height;
     private final int width;
@@ -13,7 +12,6 @@ public class DisplayGraphic {
     private final String[][] gameMaze;
     private final Symbol gameSymbol;
     private final Map maze;
-
 
     public DisplayGraphic(int height, int width, Map map) {
         this.height = height;
@@ -25,18 +23,13 @@ public class DisplayGraphic {
 
     }
 
-    public void initMaze() {
+    public void initDisplay() {
         String[][] actualMaze = maze.getFullMaze();
         for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                this.fullMaze[i][j] = actualMaze[i][j];
+            if (width >= 0) {
+                System.arraycopy(actualMaze[i], 0, this.fullMaze[i], 0, width);
             }
         }
-    }
-
-
-    public void initDisplay() {
-        initMaze();
         for (int i = 1; i < width - 1; ++i) {
             gameMaze[0][i] = gameSymbol.getWallSymbol();
         }
@@ -78,14 +71,6 @@ public class DisplayGraphic {
 
     }
 
-    public void displayAllMonster(List<Cell> positions) {
-        for (Cell position : positions) {
-            int currentX = position.getX();
-            int currentY = position.getY();
-            fullMaze[currentX][currentY] = gameSymbol.getMonsterSymbol();
-        }
-    }
-
     public void drawHero(Cell position) {
         gameMaze[position.getX() - 1][position.getY()] = fullMaze[position.getX() - 1][position.getY()];
         gameMaze[position.getX() + 1][position.getY()] = fullMaze[position.getX() + 1][position.getY()];
@@ -98,18 +83,10 @@ public class DisplayGraphic {
         gameMaze[position.getX()][position.getY()] = gameSymbol.getHeroSymbol();
     }
 
-    public void displayHero(Cell position) {
-        fullMaze[position.getX()][position.getY()] = gameSymbol.getHeroSymbol();
-    }
-
     public void drawPower(Cell position, Cell pastPosition) {
         gameMaze[pastPosition.getX()][pastPosition.getY()] = gameSymbol.getSpaceSymbol();
         gameMaze[position.getX()][position.getY()] = gameSymbol.getPowerSymbol();
         fullMaze[pastPosition.getX()][pastPosition.getY()] = gameSymbol.getSpaceSymbol();
-        fullMaze[position.getX()][position.getY()] = gameSymbol.getPowerSymbol();
-    }
-
-    public void displayPower(Cell position) {
         fullMaze[position.getX()][position.getY()] = gameSymbol.getPowerSymbol();
     }
 
@@ -129,6 +106,22 @@ public class DisplayGraphic {
         }
     }
 
+    public void displayAllMonster(List<Cell> positions) {
+        for (Cell position : positions) {
+            int currentX = position.getX();
+            int currentY = position.getY();
+            fullMaze[currentX][currentY] = gameSymbol.getMonsterSymbol();
+        }
+    }
+
+    public void displayHero(Cell position) {
+        fullMaze[position.getX()][position.getY()] = gameSymbol.getHeroSymbol();
+    }
+
+    public void displayPower(Cell position) {
+        fullMaze[position.getX()][position.getY()] = gameSymbol.getPowerSymbol();
+    }
+
     public void displayFullMap(GamePlay game) {
         displayPower(game.getPower().getPowerPosition());
         displayHero(game.getHero().getHeroPosition());
@@ -140,6 +133,11 @@ public class DisplayGraphic {
             System.out.println();
         }
         fullMaze[game.getHero().getHeroPosition().getX()][game.getHero().getHeroPosition().getY()] = gameSymbol.getSpaceSymbol();
+        for (Cell position : game.getMonster().getMonsterPosition()) {
+            int currentX = position.getX();
+            int currentY = position.getY();
+            fullMaze[currentX][currentY] = gameSymbol.getSpaceSymbol();
+        }
     }
 
     public void menu() {

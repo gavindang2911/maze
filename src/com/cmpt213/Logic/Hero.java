@@ -1,3 +1,4 @@
+
 package com.cmpt213.Logic;
 
 public class Hero {
@@ -35,8 +36,9 @@ public class Hero {
         numberOfPowerPossess += 1;
     }
 
-    public void decreasePowerNum() {
-        numberOfPowerPossess -= 1;
+    public void decreasePowerNum(int num) {
+        numberOfPowerPossess -= num;
     }
 
 }
+

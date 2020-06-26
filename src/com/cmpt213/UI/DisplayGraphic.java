@@ -219,7 +219,7 @@ public class DisplayGraphic {
                     game.heroVsMonster();
                 }
             }
-            
+
             System.out.println("Maze:");
             display.drawGame(game);
         }

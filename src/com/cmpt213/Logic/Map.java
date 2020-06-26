@@ -14,7 +14,6 @@ import java.util.Stack;
 public class Map {
     private int height;
     private int width;
-    private final String wall = "#";
     private String fullMaze[][];
     private String gameMaze[][];
     private final Cell[][] maze;
@@ -32,7 +31,19 @@ public class Map {
         generateOutSideMaze();
         setInnerMaze();
         generateMaze();
-        fullFillMaze();
+//        fullFillMaze();
+        while (check2x2Constraint()) {
+            addWallAndEmptyTo2x2();
+            removeWallAtCorners();
+            removeWallsAroundCorners();
+            removeInnerWalls();
+            // Convert all symbol in maze to String and save in mazeString
+            for (int i = 0; i < height; ++i) {
+                for (int j = 0; j < width; ++j) {
+                    this.fullMaze[i][j] = maze[i][j].getActualSymbol();
+                }
+            }
+        }
     }
 
 
@@ -45,7 +56,7 @@ public class Map {
     }
 
     public boolean isCurrentWall(Cell current) {
-        return fullMaze[current.getX()][current.getY()].equals(wall);
+        return fullMaze[current.getX()][current.getY()].equals("#");
     }
 
     public String[][] getFullMaze() {
@@ -244,18 +255,18 @@ public class Map {
     }
 
 
-    private void fullFillMaze() {
-        while (check2x2Constraint()) {
-            addWallAndEmptyTo2x2();
-            removeWallAtCorners();
-            removeWallsAroundCorners();
-            removeInnerWalls();
-            // Convert all symbol in maze to String and save in mazeString
-            for (int i = 0; i < height; ++i) {
-                for (int j = 0; j < width; ++j) {
-                    this.fullMaze[i][j] = maze[i][j].getActualSymbol();
-                }
-            }
-        }
-    }
+//    private void fullFillMaze() {
+//        while (check2x2Constraint()) {
+//            addWallAndEmptyTo2x2();
+//            removeWallAtCorners();
+//            removeWallsAroundCorners();
+//            removeInnerWalls();
+//            // Convert all symbol in maze to String and save in mazeString
+//            for (int i = 0; i < height; ++i) {
+//                for (int j = 0; j < width; ++j) {
+//                    this.fullMaze[i][j] = maze[i][j].getActualSymbol();
+//                }
+//            }
+//        }
+//    }
 }

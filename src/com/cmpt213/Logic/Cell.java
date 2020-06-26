@@ -67,5 +67,4 @@ public class Cell {
         if (x != cell.x) return false;
         return y == cell.y;
     }
-
 }

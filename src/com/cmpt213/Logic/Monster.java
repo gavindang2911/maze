@@ -5,7 +5,8 @@ import java.util.List;
 
 
 /**
- * A class Monster, which
+ * A class Monster which contains number of monsters, all monsters current positions, their last positions
+ * and the result of the game (monster win).
  *
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */
@@ -25,7 +26,7 @@ public class Monster {
         monsterPosition = new ArrayList<>(positions);
     }
 
-    public void initPastPosition(ArrayList<Cell> positions) {
+    public void initLastPosition(ArrayList<Cell> positions) {
         pastPosition = new ArrayList<>(positions);
     }
 
@@ -41,7 +42,7 @@ public class Monster {
         return monsterPosition;
     }
 
-    public List<Cell> getPastPosition() {
+    public List<Cell> getLastPosition() {
         return pastPosition;
     }
 

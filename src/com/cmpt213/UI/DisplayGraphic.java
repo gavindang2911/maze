@@ -3,11 +3,9 @@ package com.cmpt213.UI;
 import com.cmpt213.Logic.*;
 
 import java.util.List;
-import java.util.Scanner;
-
 
 /**
- * A class DisplayGraphic, which
+ * A class DisplayGraphic which displays hero, monster, power, maze and help menu while playing game.
  *
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */
@@ -30,10 +28,10 @@ public class DisplayGraphic {
     }
 
     public void initDisplay() {
-        String[][] actualMaze = maze.getFullMaze();
+        String[][] fullMaze = maze.getFullMaze();
         for (int i = 0; i < height; ++i) {
             if (width >= 0) {
-                System.arraycopy(actualMaze[i], 0, this.fullMaze[i], 0, width);
+                System.arraycopy(fullMaze[i], 0, this.fullMaze[i], 0, width);
             }
         }
         for (int i = 1; i < width - 1; ++i) {
@@ -97,9 +95,9 @@ public class DisplayGraphic {
     }
 
     public void drawGame(GamePlay game) {
-        drawPower(game.getPower().getPowerPosition(), game.getPower().getPastPowerPosition());
+        drawPower(game.getPower().getPowerPosition(), game.getPower().getLastPowerPosition());
         drawHero(game.getHero().getHeroPosition());
-        drawMonster(game.getMonster().getMonsterPosition(), game.getMonster().getPastPosition(),
+        drawMonster(game.getMonster().getMonsterPosition(), game.getMonster().getLastPosition(),
                 game.getPower().getPowerPosition(), game.getHero().getHeroPosition());
         if (!game.getHero().isHeroWin() && game.getMonster().isMonsterWin()) {
             gameMaze[game.getHero().getHeroPosition().getX()][game.getHero().getHeroPosition().getY()] = gameSymbol.getHeroDieSymbol();
@@ -147,7 +145,7 @@ public class DisplayGraphic {
     }
 
     public void menu() {
-        System.out.println("DIRECTIONS:\n" +
+        final String helpMenu = "DIRECTIONS:\n" +
                 "Kill 3 Monsters!\n" +
                 "LEGEND:\n" +
                 "#: Wall\n" +
@@ -157,77 +155,10 @@ public class DisplayGraphic {
                 ".: Unexplored space\n" +
                 "MOVES:\n" +
                 "Use W (up), A (left), S (down) and D (right) to move.\n" +
-                "(You must press enter after each move).");
-        System.out.println("1.Press c to use cheat code.\n2.Press m to display full map.\n" +
-                "3.Press any key and enter to play.\n");
-    }
-
-    public static void main(String[] args) {
-        final int height = 15;
-        final int width = 20;
-        int monsterNum = 3;
-
-        Monster monster = new Monster(monsterNum);
-        Hero hero = new Hero(1, 1);
-        Power power = new Power(3);
-        Map map = new Map(height, width);
-        GamePlay game = new GamePlay(hero, monster, power, map);
-
-        map.createMaze();
-        DisplayGraphic display = new DisplayGraphic(height, width, map);
-        display.initDisplay();
-        game.initGameState();
-        display.menu();
-        System.out.println("Maze:");
-        display.drawGame(game);
-
-        while (!monster.isMonsterWin() && !hero.isHeroWin()) {
-            if (game.getCheatCode()) {
-                System.out.println("Total number of monsters to be killed: 1");
-            } else {
-                System.out.println("Total number of monsters to be killed: " + game.getMonster().getMonsterNum());
-            }
-
-            System.out.println("Number of powers currently in possession: " + game.getHero().getNumberOfPowerPossess());
-            System.out.println("Number of monsters alive: " + game.getMonster().getMonsterNum());
-            System.out.print("Press [wsad] to move hero: ");
-            Scanner gamerInput = new Scanner(System.in);
-            String moveInput = gamerInput.nextLine();
-
-            if (moveInput.equals("m")) {
-                display.displayFullMap(game);
-            } else if (moveInput.equals("?")) {
-                display.menu();
-            } else {
-                if (moveInput.equals("c")) {
-                    game.setCheatCode();
-                    System.out.print("Press [wsad] to move hero: ");
-                    moveInput = gamerInput.nextLine();
-                }
-                while (!moveInput.equals("w") && !moveInput.equals("s") && !moveInput.equals("a") && !moveInput.equals("d")) {
-                    System.out.print("Please enter valid move [wsad]: ");
-                    moveInput = gamerInput.nextLine();
-                }
-                game.heroAction(moveInput);
-                while (game.isInvalidMove()) {
-                    System.out.print("Hero cannot go through wall. Enter again [wsad]: ");
-                    moveInput = gamerInput.nextLine();
-                    game.heroAction(moveInput);
-                }
-                if (game.getMonster().getMonsterNum() > 0 && !game.getHero().isHeroWin() && !game.getMonster().isMonsterWin()) {
-                    game.monsterAction();
-                    game.heroVsMonster();
-                }
-            }
-
-            System.out.println("Maze:");
-            display.drawGame(game);
-        }
-        if (monster.isMonsterWin()) {
-            System.out.println("I'm sorry, you have been eaten!\n");
-        } else {
-            System.out.println("You won!\n");
-        }
+                "(You must press enter after each move).\n" +
+                "1.Press c to use cheat code.\n2.Press m to display full map.\n" +
+                "3.Press any key and enter to play.\n";
+        System.out.print(helpMenu);
     }
 }
 

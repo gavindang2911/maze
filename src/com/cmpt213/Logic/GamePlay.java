@@ -8,7 +8,8 @@ import java.util.Random;
 
 
 /**
- * A class GamePlay, which
+ * A class GamePlay which contains necessary game rules, determine game state
+ * and how object interacts to each other.
  *
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */
@@ -39,16 +40,16 @@ public class GamePlay {
         return power;
     }
 
-    public boolean getCheatCode() {
-        return cheatCode;
-    }
-
     public boolean isInvalidMove() {
         return invalidMove;
     }
 
     public void setInvalidMove(boolean invalidMove) {
         this.invalidMove = invalidMove;
+    }
+
+    public boolean getCheatCode() {
+        return cheatCode;
     }
 
     public void setCheatCode() {
@@ -74,7 +75,7 @@ public class GamePlay {
         initPastMonsterPos.add(pastMonster3);
 
         monster.initMonster(initMonsterPos);
-        monster.initPastPosition(initPastMonsterPos);
+        monster.initLastPosition(initPastMonsterPos);
 
         Random randomPower = new Random();
         int randomX = randomPower.nextInt(9) + 2;
@@ -82,7 +83,7 @@ public class GamePlay {
             Cell powerPosition = new Cell(randomX, i);
             if (!map.isCurrentWall(powerPosition)) {
                 power.initPower(powerPosition);
-                power.setPastPowerPosition();
+                power.setLastPowerPosition();
                 break;
             }
         }
@@ -91,7 +92,7 @@ public class GamePlay {
     public void monsterAction() {
         for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
             Cell current = monster.getMonsterPosition().get(i);
-            Cell past = monster.getPastPosition().get(i);
+            Cell past = monster.getLastPosition().get(i);
             int currentX = current.getX();
             int currentY = current.getY();
             Cell up = new Cell(currentX - 1, currentY);
@@ -197,15 +198,15 @@ public class GamePlay {
     }
 
     public void generatePower() {
-        power.setPastPowerPosition();
+        power.setLastPowerPosition();
         Random randomPower = new Random();
-        int randomX = randomPower.nextInt(map.getHeight()-2)+1;
-        int randomY = randomPower.nextInt(map.getWidth()-2)+1;
-
+        int randomX = randomPower.nextInt(map.getHeight() - 2) + 1;
+        int randomY = randomPower.nextInt(map.getWidth() - 2) + 1;
 
         for (int i = 0; i < map.getWidth(); ++i ) {
             Cell powerPosition = new Cell(randomX, randomY);
-            if (!map.isCurrentWall(powerPosition)) {
+            if (!map.isCurrentWall(powerPosition) && randomX != hero.getHeroPosition().getX()
+                && randomY != hero.getHeroPosition().getY()) {
                 power.initPower(powerPosition);
                 break;
             }

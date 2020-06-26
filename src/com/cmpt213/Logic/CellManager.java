@@ -1,12 +1,9 @@
 package com.cmpt213.Logic;
 
 
-
-import com.cmpt213.Logic.Cell;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A class CellManager, which is the array list of all cells in the maze that we can use method to get size.
@@ -14,7 +11,7 @@ import java.util.Iterator;
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */
 public class CellManager implements Iterable<Cell> {
-    private List<Cell> listOfCells = new ArrayList<>();
+    private final List<Cell> listOfCells = new ArrayList<>();
     private int size;
 
     public CellManager() {

@@ -2,7 +2,8 @@ package com.cmpt213.UI;
 
 
 /**
- * A class Symbol, which
+ * A class Symbol which contains all text symbol of game objects and their states such as
+ * hero, monster, power, wall, space and unexplored area.
  *
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */

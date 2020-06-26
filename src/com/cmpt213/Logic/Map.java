@@ -12,26 +12,23 @@ import java.util.Stack;
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */
 public class Map {
-    private int height;
-    private int width;
-    private String fullMaze[][];
-    private String gameMaze[][];
+    private final int height;
+    private final int width;
+    private final String[][] fullMaze;
     private final Cell[][] maze;
 
     public Map(int height, int width) {
         this.height = height;
         this.width = width;
         this.fullMaze = new String[height][width];
-        this.gameMaze = new String[height][width];
         this.maze = new Cell[height][width];
     }
-
 
     public void createMaze() {
         generateOutSideMaze();
         setInnerMaze();
         generateMaze();
-//        fullFillMaze();
+
         while (check2x2Constraint()) {
             addWallAndEmptyTo2x2();
             removeWallAtCorners();
@@ -55,6 +52,8 @@ public class Map {
         return width;
     }
 
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isCurrentWall(Cell current) {
         return fullMaze[current.getX()][current.getY()].equals("#");
     }
@@ -117,9 +116,7 @@ public class Map {
             Random random = new Random();
 
             CellManager availableMovesList = getAvailableNeighborsHelper(visited, temp);
-            if (availableMovesList.getSize() == 0) {
-                continue;
-            } else {
+            if (availableMovesList.getSize() != 0) {
                 stack.push(temp);
 
                 // Randomly select a cell to be processed
@@ -253,20 +250,4 @@ public class Map {
             }
         }
     }
-
-
-//    private void fullFillMaze() {
-//        while (check2x2Constraint()) {
-//            addWallAndEmptyTo2x2();
-//            removeWallAtCorners();
-//            removeWallsAroundCorners();
-//            removeInnerWalls();
-//            // Convert all symbol in maze to String and save in mazeString
-//            for (int i = 0; i < height; ++i) {
-//                for (int j = 0; j < width; ++j) {
-//                    this.fullMaze[i][j] = maze[i][j].getActualSymbol();
-//                }
-//            }
-//        }
-//    }
 }

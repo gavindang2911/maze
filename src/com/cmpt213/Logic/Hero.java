@@ -3,7 +3,7 @@ package com.cmpt213.Logic;
 
 
 /**
- * A class Hero, which
+ * A class Hero which contains hero current position, its last position and the result of the game(hero win).
  *
  * @author Gavin Dang (301368907) + Peter Luong (301355418)
  */
@@ -22,6 +22,7 @@ public class Hero {
         heroWin = true;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isHeroWin() {
         return heroWin;
     }

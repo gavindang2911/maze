@@ -201,11 +201,12 @@ public class GamePlay {
         power.setLastPowerPosition();
         Random randomPower = new Random();
         int randomX = randomPower.nextInt(map.getHeight() - 3) + 1;
+        int randomY = randomPower.nextInt(map.getWidth() - 3)+1;
 
         for (int i = 0; i < map.getWidth(); ++i ) {
-            Cell powerPosition = new Cell(randomX, i);
+            Cell powerPosition = new Cell(randomX, randomY);
             if (!map.isCurrentWall(powerPosition) && randomX != hero.getHeroPosition().getX()
-                && i != hero.getHeroPosition().getY()) {
+                && randomY != hero.getHeroPosition().getY()) {
                 power.initPower(powerPosition);
                 break;
             }

@@ -14,7 +14,7 @@ public class Monster {
     private int monsterNum;
     private ArrayList<Cell> monsterPosition;
     private boolean monsterWin;
-    private ArrayList<Cell> pastPosition;
+    private ArrayList<Cell> lastPosition;
 
 
     public Monster(int monsterNum) {
@@ -27,7 +27,7 @@ public class Monster {
     }
 
     public void initLastPosition(ArrayList<Cell> positions) {
-        pastPosition = new ArrayList<>(positions);
+        lastPosition = new ArrayList<>(positions);
     }
 
     public int getMonsterNum() {
@@ -43,7 +43,7 @@ public class Monster {
     }
 
     public List<Cell> getLastPosition() {
-        return pastPosition;
+        return lastPosition;
     }
 
     public void setMonsterWin() {

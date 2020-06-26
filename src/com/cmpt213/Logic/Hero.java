@@ -1,5 +1,12 @@
+
 package com.cmpt213.Logic;
 
+
+/**
+ * A class Hero, which
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class Hero {
     private boolean heroWin;
     private Cell position;
@@ -40,3 +47,4 @@ public class Hero {
     }
 
 }
+

@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
+/**
+ * A class CellManager, which is the array list of all cells in the maze that we can use method to get size.
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class CellManager implements Iterable<Cell> {
     private List<Cell> listOfCells = new ArrayList<>();
     private int size;
@@ -24,21 +29,10 @@ public class CellManager implements Iterable<Cell> {
         return size;
     }
 
-    public void setListOfCells(List<Cell> listOfCells) {
-        this.listOfCells = listOfCells;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     public void add(Cell cell) {
         listOfCells.add(cell);
         this.size++;
-    }
-
-    public void remove(Cell cell) {
-        listOfCells.remove(cell);
     }
 
     public Cell get(int index) {
@@ -49,7 +43,4 @@ public class CellManager implements Iterable<Cell> {
     public Iterator<Cell> iterator() {
         return listOfCells.iterator();
     }
-
-
-
 }

@@ -1,5 +1,13 @@
 package com.cmpt213.Logic;
 
+
+/**
+ * A class Cell, which is the data type for each index (i, j) that we are using to generate the maze.
+ * It has the coordinate x and y according to the maze, actualSymbol represents for the symbol in that cell,
+ * list of neighbour cells including top, bottom, right, left cells of a specific cell
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class Cell {
     private int x; // X coordinate
     private int y; // Y coordinate
@@ -59,5 +67,4 @@ public class Cell {
         if (x != cell.x) return false;
         return y == cell.y;
     }
-
 }

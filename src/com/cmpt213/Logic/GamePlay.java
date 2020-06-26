@@ -6,6 +6,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+
+/**
+ * A class GamePlay, which
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class GamePlay {
     private final Monster monster;
     private final Hero hero;
@@ -193,9 +199,12 @@ public class GamePlay {
     public void generatePower() {
         power.setPastPowerPosition();
         Random randomPower = new Random();
-        int randomX = randomPower.nextInt(9) + 2;
+        int randomX = randomPower.nextInt(map.getHeight()-2)+1;
+        int randomY = randomPower.nextInt(map.getWidth()-2)+1;
+
+
         for (int i = 0; i < map.getWidth(); ++i ) {
-            Cell powerPosition = new Cell(randomX, i);
+            Cell powerPosition = new Cell(randomX, randomY);
             if (!map.isCurrentWall(powerPosition)) {
                 power.initPower(powerPosition);
                 break;

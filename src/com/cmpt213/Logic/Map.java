@@ -4,6 +4,13 @@ package com.cmpt213.Logic;
 import java.util.Random;
 import java.util.Stack;
 
+/**
+ * A class Map, which generates the maze that using the depth first search algorithm to find the path
+ * starting from index(1,1). After that follow the requirements of the assignment remove some inner walls and
+ * conner walls so that still satisfy the 2 x 2 square constraint rules.
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class Map {
     private int height;
     private int width;
@@ -20,15 +27,6 @@ public class Map {
         this.maze = new Cell[height][width];
     }
 
-//    public void initGrid() {
-//        MazeGenerator maze = new MazeGenerator(height, width);
-//        String[][] actualMaze = maze.getFullMaze();
-//        for (int i = 0; i < height; ++i) {
-//            for (int j = 0; j < width; ++j) {
-//                this.fullMaze[i][j] = actualMaze[i][j];
-//            }
-//        }
-//    }
 
     public void createMaze() {
         generateOutSideMaze();
@@ -56,7 +54,7 @@ public class Map {
 
     private void generateOutSideMaze() {
         for (int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++) {
+            for (int j = 0; j < width; j++) {
                 // Fill outside wall with "#"
                 Cell cell;
                 if (i == 0 || j == 0 || (i == height - 1) || (j == width - 1)) {
@@ -79,11 +77,11 @@ public class Map {
     // Each cell holding the array of its neighbor cells
     private void setInnerMaze() {
         for (int i = 1; i < height - 1; i++) {
-            for(int j = 1; j < width - 1; j++) {
-                Cell north = maze[i+1][j];
-                Cell south = maze[i-1][j];
-                Cell west = maze[i][j-1];
-                Cell east = maze[i][j+1];
+            for (int j = 1; j < width - 1; j++) {
+                Cell north = maze[i + 1][j];
+                Cell south = maze[i - 1][j];
+                Cell west = maze[i][j - 1];
+                Cell east = maze[i][j + 1];
                 maze[i][j].getNeighboursOfCell().add(north);
                 maze[i][j].getNeighboursOfCell().add(south);
                 maze[i][j].getNeighboursOfCell().add(west);
@@ -110,8 +108,7 @@ public class Map {
             CellManager availableMovesList = getAvailableNeighborsHelper(visited, temp);
             if (availableMovesList.getSize() == 0) {
                 continue;
-            }
-            else {
+            } else {
                 stack.push(temp);
 
                 // Randomly select a cell to be processed
@@ -129,7 +126,7 @@ public class Map {
     // Get available neighbors from bottom, left, right, top and unvisited
     private CellManager getAvailableNeighborsHelper(CellManager visit, Cell cell) {
         CellManager availableMoves = new CellManager();
-        for (Cell neighbor:cell.getNeighboursOfCell()) {
+        for (Cell neighbor : cell.getNeighboursOfCell()) {
             if (neighbor.getDotSymbol().equals(".") && !visit.getListOfCells().contains(neighbor)) {
                 availableMoves.add(neighbor);
             }
@@ -142,9 +139,9 @@ public class Map {
     //  Requirements:
     //  Not have a wall in each of the 4 corners
     private void removeWallAtCorners() {
-        for (int i = 1; i < height - 1;  i++) {
+        for (int i = 1; i < height - 1; i++) {
             for (int j = 1; j < width - 1; j++) {
-                if ((i == 1 && j == 1) || ((i == height - 2) && (j == 1)) || ((i == 1) && (j == width - 2)) || ((i == height - 2) && (j == width-2))) {
+                if ((i == 1 && j == 1) || ((i == height - 2) && (j == 1)) || ((i == 1) && (j == width - 2)) || ((i == height - 2) && (j == width - 2))) {
                     maze[i][j].setActualSymbol(" ");
                 }
             }
@@ -160,8 +157,7 @@ public class Map {
             maze[1][width - 3].setActualSymbol(" ");
             maze[height - 2][2].setActualSymbol(" ");
             maze[height - 2][width - 3].setActualSymbol(" ");
-        }
-        else {
+        } else {
             maze[2][1].setActualSymbol(" ");
             maze[2][width - 2].setActualSymbol(" ");
             maze[height - 3][1].setActualSymbol(" ");
@@ -222,15 +218,12 @@ public class Map {
                 if (currentCell.equals(" ") && rightCell.equals(" ") && bottomCell.equals(" ") && bottomRightCell.equals(" ")) {
                     if (randomPick == 0) {
                         maze[i][j].setActualSymbol("#");
-                    }
-                    else if (randomPick == 1) {
-                        maze[i][j+1].setActualSymbol("#");
-                    }
-                    else if (randomPick == 2) {
-                        maze[i+1][j].setActualSymbol("#");
-                    }
-                    else {
-                        maze[i+1][j+1].setActualSymbol("#");
+                    } else if (randomPick == 1) {
+                        maze[i][j + 1].setActualSymbol("#");
+                    } else if (randomPick == 2) {
+                        maze[i + 1][j].setActualSymbol("#");
+                    } else {
+                        maze[i + 1][j + 1].setActualSymbol("#");
                     }
                 }
 
@@ -238,15 +231,12 @@ public class Map {
                 if (currentCell.equals("#") && rightCell.equals("#") && bottomCell.equals("#") && bottomRightCell.equals("#")) {
                     if (randomPick == 0) {
                         maze[i][j].setActualSymbol(" ");
-                    }
-                    else if (randomPick == 1) {
-                        maze[i][j+1].setActualSymbol(" ");
-                    }
-                    else if (randomPick == 2) {
-                        maze[i+1][j].setActualSymbol(" ");
-                    }
-                    else {
-                        maze[i+1][j+1].setActualSymbol(" ");
+                    } else if (randomPick == 1) {
+                        maze[i][j + 1].setActualSymbol(" ");
+                    } else if (randomPick == 2) {
+                        maze[i + 1][j].setActualSymbol(" ");
+                    } else {
+                        maze[i + 1][j + 1].setActualSymbol(" ");
                     }
                 }
             }

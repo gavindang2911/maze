@@ -3,6 +3,12 @@ package com.cmpt213.Logic;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * A class Monster, which
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class Monster {
     private int monsterNum;
     private ArrayList<Cell> monsterPosition;
@@ -18,6 +24,7 @@ public class Monster {
     public void initMonster(ArrayList<Cell> positions) {
         monsterPosition = new ArrayList<>(positions);
     }
+
     public void initPastPosition(ArrayList<Cell> positions) {
         pastPosition = new ArrayList<>(positions);
     }

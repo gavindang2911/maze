@@ -1,5 +1,11 @@
 package com.cmpt213.UI;
 
+
+/**
+ * A class Symbol, which
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class Symbol {
     private final String hero;
     private final String monster;

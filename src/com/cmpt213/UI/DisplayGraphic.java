@@ -5,6 +5,12 @@ import com.cmpt213.Logic.*;
 import java.util.List;
 import java.util.Scanner;
 
+
+/**
+ * A class DisplayGraphic, which
+ *
+ * @author Gavin Dang (301368907) + Peter Luong (301355418)
+ */
 public class DisplayGraphic {
     private final int height;
     private final int width;
@@ -166,7 +172,7 @@ public class DisplayGraphic {
         Power power = new Power(3);
         Map map = new Map(height, width);
         GamePlay game = new GamePlay(hero, monster, power, map);
-//        map.initGrid();
+
         map.createMaze();
         DisplayGraphic display = new DisplayGraphic(height, width, map);
         display.initDisplay();
@@ -175,17 +181,19 @@ public class DisplayGraphic {
         System.out.println("Maze:");
         display.drawGame(game);
 
-        while(!monster.isMonsterWin() && !hero.isHeroWin()) {
+        while (!monster.isMonsterWin() && !hero.isHeroWin()) {
             if (game.getCheatCode()) {
                 System.out.println("Total number of monsters to be killed: 1");
             } else {
                 System.out.println("Total number of monsters to be killed: " + game.getMonster().getMonsterNum());
             }
+
             System.out.println("Number of powers currently in possession: " + game.getHero().getNumberOfPowerPossess());
             System.out.println("Number of monsters alive: " + game.getMonster().getMonsterNum());
-            System.out.println("Press [wsad] to move hero:");
+            System.out.print("Press [wsad] to move hero: ");
             Scanner gamerInput = new Scanner(System.in);
             String moveInput = gamerInput.nextLine();
+
             if (moveInput.equals("m")) {
                 display.displayFullMap(game);
             } else if (moveInput.equals("?")) {
@@ -193,16 +201,16 @@ public class DisplayGraphic {
             } else {
                 if (moveInput.equals("c")) {
                     game.setCheatCode();
-                    System.out.println("Press [wsad] to move hero:");
+                    System.out.print("Press [wsad] to move hero: ");
                     moveInput = gamerInput.nextLine();
                 }
                 while (!moveInput.equals("w") && !moveInput.equals("s") && !moveInput.equals("a") && !moveInput.equals("d")) {
-                    System.out.println("Please enter valid move [wsad]: ");
+                    System.out.print("Please enter valid move [wsad]: ");
                     moveInput = gamerInput.nextLine();
                 }
                 game.heroAction(moveInput);
-                while(game.isInvalidMove()) {
-                    System.out.println("Hero cannot go through wall. Enter again [wsad]: ");
+                while (game.isInvalidMove()) {
+                    System.out.print("Hero cannot go through wall. Enter again [wsad]: ");
                     moveInput = gamerInput.nextLine();
                     game.heroAction(moveInput);
                 }
@@ -211,13 +219,14 @@ public class DisplayGraphic {
                     game.heroVsMonster();
                 }
             }
+            
             System.out.println("Maze:");
             display.drawGame(game);
         }
         if (monster.isMonsterWin()) {
-            System.out.println("Game over!");
+            System.out.println("I'm sorry, you have been eaten!\n");
         } else {
-            System.out.println("You won!");
+            System.out.println("You won!\n");
         }
     }
 }

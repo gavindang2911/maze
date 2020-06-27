@@ -135,6 +135,7 @@ public class GamePlay {
         }
     }
 
+    // check if hero and monster in the same cell
     public boolean checkHeroInMonster() {
         for (int i = 0; i < monster.getMonsterPosition().size(); ++i) {
             if (hero.getHeroPosition().getX() == monster.getMonsterPosition().get(i).getX() &&
@@ -184,6 +185,9 @@ public class GamePlay {
                 if (!checkHeroInMonster()) {
                     heroGrabPower();
                 }
+            }
+            default -> {
+                assert false;
             }
         }
         if (currentX == hero.getHeroPosition().getX() && currentY == hero.getHeroPosition().getY()) {

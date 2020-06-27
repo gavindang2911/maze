@@ -53,8 +53,8 @@ public class DisplayGraphic {
         }
     }
 
-    public void drawMonster(List<Cell> positions, List<Cell> pastPositions, Cell powerPosition, Cell heroPosition) {
-        for (Cell position : pastPositions) {
+    public void drawMonster(List<Cell> positions, List<Cell> lastPositions, Cell powerPosition, Cell heroPosition) {
+        for (Cell position : lastPositions) {
             int pastX = position.getX();
             int pastY = position.getY();
             if (powerPosition.getX() == pastX && powerPosition.getY() == pastY) {
@@ -87,10 +87,10 @@ public class DisplayGraphic {
         gameMaze[position.getX()][position.getY()] = gameSymbol.getHeroSymbol();
     }
 
-    public void drawPower(Cell position, Cell pastPosition) {
-        gameMaze[pastPosition.getX()][pastPosition.getY()] = gameSymbol.getSpaceSymbol();
+    public void drawPower(Cell position, Cell lastPosition) {
+        gameMaze[lastPosition.getX()][lastPosition.getY()] = gameSymbol.getSpaceSymbol();
         gameMaze[position.getX()][position.getY()] = gameSymbol.getPowerSymbol();
-        fullMaze[pastPosition.getX()][pastPosition.getY()] = gameSymbol.getSpaceSymbol();
+        fullMaze[lastPosition.getX()][lastPosition.getY()] = gameSymbol.getSpaceSymbol();
         fullMaze[position.getX()][position.getY()] = gameSymbol.getPowerSymbol();
     }
 

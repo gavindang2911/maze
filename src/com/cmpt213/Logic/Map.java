@@ -28,7 +28,6 @@ public class Map {
         generateOutSideMaze();
         setInnerMaze();
         generateMaze();
-
         while (check2x2Constraint()) {
             addWallAndEmptyTo2x2();
             removeWallAtCorners();
@@ -42,7 +41,6 @@ public class Map {
             }
         }
     }
-
 
     public int getHeight() {
         return height;

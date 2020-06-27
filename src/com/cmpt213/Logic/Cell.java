@@ -40,7 +40,6 @@ public class Cell {
         return neighboursOfCell;
     }
 
-
     public void setX(int x) {
         this.x = x;
     }

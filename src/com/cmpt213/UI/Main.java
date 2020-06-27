@@ -1,4 +1,4 @@
-package com.cmpt213;
+package com.cmpt213.UI;
 
 import com.cmpt213.Logic.*;
 import com.cmpt213.UI.DisplayGraphic;
